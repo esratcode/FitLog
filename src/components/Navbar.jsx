@@ -9,13 +9,14 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const isWorkoutActive = pathname === "/" || pathname.startsWith("/workouts");
+
   const isPlanActive = pathname === "/my-plan";
+
   const { plan, saved } = useWorkout();
 
   return (
     <header className="border-b border-[#2b2b2b] bg-[#101010]">
       <div className="container flex min-h-[76px] items-center justify-between gap-6">
-        {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center gap-3">
           <Image
             src="/assets/logo.png"
@@ -30,7 +31,6 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Navigation */}
         <nav className="hidden items-center gap-2 sm:flex">
           <Link
             href="/"
@@ -55,7 +55,6 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        {/* Counters */}
         <div className="flex items-center gap-2">
           <Link
             href="/my-plan"
@@ -73,7 +72,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile navigation */}
       <nav className="flex border-t border-[#2b2b2b] sm:hidden">
         <Link
           href="/"
