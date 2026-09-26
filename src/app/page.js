@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useWorkout } from "@/context/WorkoutContext";
 import WorkoutCard from "@/components/WorkoutCard";
 
@@ -77,20 +78,21 @@ export default function Home() {
               <span className="text-lg">→</span>
             </a>
 
+            {/* Plan & Saved Counters */}
             <div className="mt-5 flex flex-wrap gap-3">
-              <a
+              <Link
                 href="/my-plan"
                 className="rounded-full bg-[#ccff00] px-4 py-2 text-xs font-bold uppercase tracking-wide text-black transition hover:bg-white"
               >
                 Plan {plan.length}
-              </a>
+              </Link>
 
-              <a
+              <Link
                 href="/my-plan"
                 className="rounded-full border border-[#666666] px-4 py-2 text-xs font-bold uppercase tracking-wide text-white transition hover:border-[#ccff00] hover:text-[#ccff00]"
               >
                 Saved {saved.length}
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -107,7 +109,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Library */}
+      {/* Workout Library */}
       <section id="library" className="container py-24">
         <div className="mb-8">
           <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#ccff00]">
@@ -166,7 +168,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* Empty */}
+        {/* Empty State */}
         {!loading && sortedWorkouts.length === 0 && (
           <div className="flex min-h-[300px] items-center justify-center border border-dashed border-[#333333]">
             <p className="text-sm uppercase tracking-widest text-[#888888]">
