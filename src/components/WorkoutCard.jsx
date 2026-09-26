@@ -9,10 +9,28 @@ export default function WorkoutCard({ workout }) {
 
   const isAdded = plan.some((item) => item.id === workout.id);
   const isSaved = saved.some((item) => item.id === workout.id);
+  const planFull = plan.length >= 5 && !isAdded;
+
+  const handleAddToPlan = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (isAdded || planFull) {
+      return;
+    }
+
+    addToPlan(workout);
+  };
+
+  const handleSave = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    toggleSaved(workout);
+  };
 
   return (
     <div className="group overflow-hidden border border-[#2b2b2b] bg-[#181818] transition hover:-translate-y-1 hover:border-[#ccff00]">
-      {/* Image */}
       <Link href={`/workouts/${workout.id}`}>
         <div className="relative aspect-[4/3] overflow-hidden bg-[#222222]">
           <Image
@@ -26,9 +44,7 @@ export default function WorkoutCard({ workout }) {
         </div>
       </Link>
 
-      {/* Content */}
       <div className="p-5">
-        {/* Muscle Groups */}
         <div className="mb-4 flex flex-wrap gap-2">
           {workout.muscleGroups?.map((muscle) => (
             <span
@@ -40,35 +56,41 @@ export default function WorkoutCard({ workout }) {
           ))}
         </div>
 
-        {/* Name */}
         <Link href={`/workouts/${workout.id}`}>
           <h3 className="display-font text-2xl font-bold uppercase leading-tight">
             {workout.name}
           </h3>
         </Link>
 
-        {/* Equipment */}
         <p className="mt-2 text-sm text-[#888888]">{workout.equipment}</p>
 
-        {/* Stats */}
         <div className="mt-5 flex flex-wrap gap-4 border-t border-[#2b2b2b] pt-4 text-xs text-[#aaaaaa]">
           <span>⏱ {workout.duration} min</span>
           <span>🔥 {workout.caloriesBurned} kcal</span>
           <span>★ {workout.rating}</span>
         </div>
 
-        {/* Add to Plan */}
         <button
-          onClick={() => addToPlan(workout)}
-          className="mt-5 w-full bg-[#ccff00] px-4 py-3 text-sm font-bold uppercase tracking-wide text-black transition hover:bg-white"
+          onClick={handleAddToPlan}
+          disabled={isAdded || planFull}
+          className={`mt-5 w-full px-4 py-3 text-sm font-bold uppercase tracking-wide transition ${
+            isAdded
+              ? "cursor-default bg-[#333333] text-[#888888]"
+              : planFull
+                ? "cursor-not-allowed bg-[#222222] text-[#666666]"
+                : "bg-[#ccff00] text-black hover:bg-white"
+          }`}
         >
-          {isAdded ? "Added to Plan" : "Add to Plan"}
+          {isAdded ? "Added to Plan" : planFull ? "Plan Full" : "Add to Plan"}
         </button>
 
-        {/* Save */}
         <button
-          onClick={() => toggleSaved(workout)}
-          className="mt-2 w-full border border-[#666666] px-4 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:border-[#ccff00] hover:text-[#ccff00]"
+          onClick={handleSave}
+          className={`mt-2 w-full px-4 py-3 text-sm font-bold uppercase tracking-wide transition ${
+            isSaved
+              ? "border border-[#ccff00] text-[#ccff00]"
+              : "border border-[#666666] text-white hover:border-[#ccff00] hover:text-[#ccff00]"
+          }`}
         >
           {isSaved ? "Saved" : "Save Workout"}
         </button>
