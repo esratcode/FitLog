@@ -4,7 +4,7 @@ FitLog is a responsive workout library web application built with Next.js. It al
 
 ## 🔗 Links
 
-- **Live Website:** https://fit-log-livid.vercel.app/
+- **Live Website:** https://fit-log-livid.vercel.app/?utm_source=chatgpt.com
 - **GitHub Repository:** https://github.com/esratcode/FitLog
 
 ## ✨ Key Features
