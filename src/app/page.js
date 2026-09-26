@@ -11,6 +11,7 @@ export default function Home() {
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState("duration");
+  const [error, setError] = useState("");
 
   const sortedWorkouts = [...workouts].sort((a, b) => {
     if (sortBy === "duration") {
@@ -41,6 +42,7 @@ export default function Home() {
         setWorkouts(data);
       } catch (error) {
         console.error("Workout fetch error:", error);
+        setError("Unable to load workouts. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -159,8 +161,23 @@ export default function Home() {
           </div>
         )}
 
+        {/* Error State */}
+        {!loading && error && (
+          <div className="flex min-h-[300px] items-center justify-center border border-dashed border-[#333333]">
+            <div className="text-center">
+              <p className="text-sm font-bold uppercase tracking-widest text-[#ff6b6b]">
+                Unable to load workouts
+              </p>
+
+              <p className="mt-3 text-sm text-[#888888]">
+                Please try again later.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Workout Cards */}
-        {!loading && sortedWorkouts.length > 0 && (
+        {!loading && !error && sortedWorkouts.length > 0 && (
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {sortedWorkouts.map((workout) => (
               <WorkoutCard key={workout.id} workout={workout} />
@@ -169,7 +186,7 @@ export default function Home() {
         )}
 
         {/* Empty State */}
-        {!loading && sortedWorkouts.length === 0 && (
+        {!loading && !error && sortedWorkouts.length === 0 && (
           <div className="flex min-h-[300px] items-center justify-center border border-dashed border-[#333333]">
             <p className="text-sm uppercase tracking-widest text-[#888888]">
               No workouts found.
